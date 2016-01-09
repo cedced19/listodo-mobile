@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <access origin="*" />
+    <title>Listodo</title>
+
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="site-container" ng-app="Listodo" ng-swipe-right="$menu.hide()" ng-swipe-left="$menu.show()">
+        <div class="site-pusher">
+            <header class="header">
+                <a class="header-icon" ng-hide="nav == 'home'" ng-click="$menu.show()"></a>
+                <nav class="menu" ng-hide="nav == 'home'">
+                    <a ng-click="$menu.hide('tasks')" ng-class="{active: nav == 'tasks'}"><i class="glyphicon glyphicon-th-list"></i> Tasks</a>
+                    <a ng-click="$menu.hide('config')" ng-class="{active: nav == 'config'}"><i class="glyphicon glyphicon-cog"></i> Configuration</a>
+                </nav>
+                <span class="header-logo">Listodo</span>
+            </header>
+
+            <div class="site-content">
+                <div class="container" autoscroll="true" ng-view></div>
+            </div>
+
+            <div class="site-cache" ng-click="$menu.hide()"></div>
+        </div>
+    </div>
+
+    <script src="cordova.js"></script>
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-routes.min.js"></script>
+    <script src="js/angular-storage.min.js"></script>
+    <script src="js/angular-touch.min.js"></script>
+    <script src="js/angular-sanitize.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
