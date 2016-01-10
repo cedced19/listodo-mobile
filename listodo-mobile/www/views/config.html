@@ -5,9 +5,23 @@
         If you have no server you can't use this application.
     </p>
     <p>
-        Change the adress <i>(Ex: domain.com:7772)</i>:
+        Change the adress <i>(Ex: domain.com:7777)</i>:
     </p>
-    <input type="text" class="form-control" placeholder="Adress" ng-model="adress">
-    <br>
-    <button type="button" class="btn btn-success" style="float:right;" ng-click="update()">Update adress</button>
+    <form name="formUpdate">
+        <div class="form-group">
+            <label for="adress">Adress:</label>
+            <input type="text" id="adress" class="form-control" placeholder="Adress" ng-model="adress" required>
+        </div>
+        <div class="form-group">
+            <label for="email">User email:</label>
+            <input type="email" id="email" class="form-control" placeholder="Email" ng-model="user.email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">User password:</label>
+            <input type="password" id="password" class="form-control" placeholder="Password" ng-model="user.password" required>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success" ng-disabled="formUpdate.$invalid" style="float:right;" ng-click="update()">Update informations</button>
+        </div>
+    </form>
 </div>

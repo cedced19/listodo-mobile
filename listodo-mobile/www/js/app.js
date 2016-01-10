@@ -6,7 +6,7 @@
         controller: 'ListodoHomeCtrl'
     })
     .when('/tasks', {
-        templateUrl: 'views/tasks-list.html',
+        templateUrl: 'views/list.html',
         controller: 'ListodoTasksCtrl'
     })
     .when('/config', {
@@ -39,12 +39,11 @@
             email: '',
             password: ''
         },
-        tasks: [],
         lists: []
     });
 
 
-    if (!$localStorage.adress) {
+    if (!$localStorage.adress || !$localStorage.user) {
         $rootScope.nav = 'home';
 
         $scope.start = function () {
@@ -59,8 +58,9 @@
     $anchorScroll();
 
     $rootScope.nav = 'tasks';
-    $http.get('http://' + $localStorage.adress + '/api/tasks').success(function (data) {
-        $scope.items = data;
+    $http.get('http://' + $localStorage.adress + '/api/lists').success(function (data) {
+        $scope.lists = data;
+        $localStorage.lists = data;
 
         $scope.goTask = function (task) {
             $location.path('/tasks/' + item.id);
