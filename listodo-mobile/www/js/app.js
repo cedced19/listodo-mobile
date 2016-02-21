@@ -1,4 +1,4 @@
-﻿angular.module('Listodo', ['ngRoute', 'ngStorage', 'ngSanitize', 'ngTouch'])
+﻿angular.module('Listodo', ['ngRoute', 'ngStorage', 'ngSanitize', 'ngTouch', 'ngCordova.plugins.network'])
 .config(function ($routeProvider) {
     $routeProvider
     .when('/', {
@@ -54,21 +54,28 @@
     } else {
         $location.path('/tasks');
     }
-}).controller('ListodoTasksCtrl', function ($scope, $rootScope, $location, $localStorage, $http, $anchorScroll) {
+}).controller('ListodoTasksCtrl', function ($scope, $rootScope, $location, $localStorage, $http, $anchorScroll, $cordovaNetwork) {
     $anchorScroll();
 
     $rootScope.nav = 'tasks';
-    $http.get('http://' + $localStorage.adress + '/api/lists').success(function (data) {
-        $scope.lists = data;
-        $localStorage.lists = data;
 
-        $scope.goTask = function (task) {
-            $location.path('/tasks/' + item.id);
-        };
+    $scope.goTask = function (task) {
+        $location.path('/tasks/' + task.id);
+    };
 
-    }).error(function () {
-        $location.path('/offline');
-    });
+    $scope.Creation = function () {
+        $location.path('/creation');
+    };
+    if ($cordovaNetwork.isOnline()) {
+        $scope.lists = $localStorage.lists;
+    } else {
+        $http.get('http://' + $localStorage.adress + '/api/lists').success(function (data) {
+            $scope.lists = data;
+            $localStorage.lists = data;
+        }).error(function () {
+            $scope.lists = $localStorage.lists;
+        });
+    }
 }).controller('ListodoConfigCtrl', function ($scope, $rootScope, $location, $localStorage, $anchorScroll) {
     $anchorScroll();
 
