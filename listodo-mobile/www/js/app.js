@@ -1,4 +1,4 @@
-﻿angular.module('Listodo', ['ngRoute', 'ngStorage', 'ngSanitize', 'ngTouch', 'ngCordova.plugins.network'])
+﻿angular.module('Listodo', ['ngRoute', 'ngStorage', 'ngSanitize', 'ngTouch', 'ngCordovaNetwork'])
 .config(function ($routeProvider) {
     $routeProvider
     .when('/', {
@@ -66,7 +66,7 @@
     $scope.Creation = function () {
         $location.path('/creation');
     };
-    if ($cordovaNetwork.isOnline()) {
+    if ($cordovaNetwork.isOffline()) {
         $scope.lists = $localStorage.lists;
     } else {
         $http.get('http://' + $localStorage.adress + '/api/lists').success(function (data) {

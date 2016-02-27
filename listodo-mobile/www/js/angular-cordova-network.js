@@ -1,57 +1,16 @@
-﻿angular.module('ngCordova.plugins.network', [])
-
-  .factory('$cordovaNetwork', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
-
-      /**
-        * Fires offline a event
-        */
-      var offlineEvent = function () {
-          var networkState = navigator.connection.type;
-          $timeout(function () {
-              $rootScope.$broadcast('$cordovaNetwork:offline', networkState);
-          });
-      };
-
-      /**
-        * Fires online a event
-        */
-      var onlineEvent = function () {
-          var networkState = navigator.connection.type;
-          $timeout(function () {
-              $rootScope.$broadcast('$cordovaNetwork:online', networkState);
-          });
-      };
-
-      document.addEventListener('deviceready', function () {
-          if (navigator.connection) {
-              document.addEventListener('offline', offlineEvent, false);
-              document.addEventListener('online', onlineEvent, false);
-          }
-      });
-
+﻿angular.module('ngCordovaNetwork', [])
+.factory('$cordovaNetwork', ['$rootScope', function ($rootScope) {
       return {
-          getNetwork: function () {
-              return navigator.connection.type;
-          },
-
           isOnline: function () {
+              if (navigator.connection == undefined) return true;
               var networkState = navigator.connection.type;
               return networkState !== Connection.UNKNOWN && networkState !== Connection.NONE;
           },
 
           isOffline: function () {
+              if (navigator.connection == undefined) return true;
               var networkState = navigator.connection.type;
               return networkState === Connection.UNKNOWN || networkState === Connection.NONE;
-          },
-
-          clearOfflineWatch: function () {
-              document.removeEventListener('offline', offlineEvent);
-              $rootScope.$$listeners['$cordovaNetwork:offline'] = [];
-          },
-
-          clearOnlineWatch: function () {
-              document.removeEventListener('online', onlineEvent);
-              $rootScope.$$listeners['$cordovaNetwork:online'] = [];
           }
       };
   }])
