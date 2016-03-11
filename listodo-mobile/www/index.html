@@ -15,6 +15,7 @@
                 <a class="header-icon" ng-hide="nav == 'home'" ng-click="$menu.show()"></a>
                 <nav class="menu" ng-hide="nav == 'home'">
                     <a ng-click="$menu.hide('tasks')" ng-class="{active: nav == 'tasks'}"><i class="glyphicon glyphicon-th-list"></i> Tasks</a>
+                    <a ng-click="$menu.hide('creation')" ng-class="{active: nav == 'creation'}"><i class="glyphicon glyphicon-pencil"></i> Creation</a>
                     <a ng-click="$menu.hide('config')" ng-class="{active: nav == 'config'}"><i class="glyphicon glyphicon-cog"></i> Configuration</a>
                 </nav>
                 <span class="header-logo">Listodo</span>
@@ -36,7 +37,9 @@
     <script src="js/angular-touch.min.js"></script>
     <script src="js/angular-sanitize.min.js"></script>
     <script src="js/angular-cordova-network.js"></script>
+    
     <script src="cordova.js"></script>
+
     <script src="js/app.js"></script>
 
 

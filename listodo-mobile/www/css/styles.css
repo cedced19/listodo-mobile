@@ -66,6 +66,10 @@ a {
     padding-right: 10px;
     font-weight: bold;
 }
+.task-action {
+    position:relative;
+	float: right;
+}
 .container a, .container a:link {
     border-bottom: 1px dotted #FB9A00;
     text-decoration: none;
