@@ -39,6 +39,23 @@
             }
         }
     };
+    $rootScope.$login = function () {
+      $http.get('http://' + $localStorage.adress + '/authenticated').success(function (data) {
+          if (!data.status) {
+            $http.post('/login', {
+              name: $localStorage.user.email,
+              password: $localStorage.user.password
+            }).success(function() {
+              cb();
+            }).error(function (status) {
+              console.log(status);
+              cb();
+            });
+          } else {
+            cb();
+          }
+        });
+    };
 })
 .controller('ListodoHomeCtrl', function ($scope, $rootScope, $location, $localStorage) {
     $localStorage.$default({
@@ -111,65 +128,84 @@
     $rootScope.nav = 'creation';
     $scope.lists = $localStorage.lists.concat($localStorage.toPublish.lists);
 
+    var displayListOffline = function () {
+      $localStorage.toPublish.lists.push({
+        name: $scope.newList.name,
+        tasks: []
+      });
+      $scope.lists = $localStorage.lists.concat($localStorage.toPublish.lists);
+    };
+
     $scope.newList = {};
     $scope.displayList = function() {
       if ($cordovaNetwork.isOnline()) {
+        $rootScope.$login(function () {
             $http.post('/api/lists',  {
                 name: $scope.newList.name
             }).success(function (data) {
                 $scope.newList = {};
-                $scope.lists.push(data);
-                navigator.notification.alert('The list has just been saved!', null, 'Done', 'Ok');
+                $localStorage.lists.push(data);
+                $scope.lists = $localStorage.lists.concat($localStorage.toPublish.lists);
+                navigator.notification.alert('The list has just been saved online!', null, 'Done', 'Ok');
             }).error(function () {
-                navigator.notification.alert('Somethings went wrong!', null, 'Error', 'Ok');
+                navigator.notification.alert('Somethings went wrong! It will be saved offline.', null, 'Error', 'Ok');
+                displayListOffline();
             });
+        });
       } else {
-        $localStorage.toPublish.lists.push({
-          name: $scope.newList.name,
-          tasks: []
+        displayListOffline();
+      }
+    };
+
+    var displayTaskOffline = function () {
+      if ($scope.newTask.list.id) {
+        $localStorage.lists.forEach(function (value, index) {
+          if (value.id = $scope.newTask.list.id) {
+            $localStorage.lists[index].tasks.push({
+              name: $scope.newTask.name,
+              content: $scope.newTask.content
+            });
+          }
+        });
+      } else {
+        $localStorage.toPublish.lists.forEach(function (value, index) {
+          if (value.name = $scope.newTask.list.name) {
+            $localStorage.toPublish.lists[index].tasks.push({
+              name: $scope.newTask.name,
+              content: $scope.newTask.content,
+              createdAt: new Date()
+            });
+          }
         });
       }
+      $localStorage.toPublish.tasks.push({
+        name: $scope.newTask.name,
+        list: $scope.newTask.list.name,
+        content: $scope.newTask.content
+      });
+      $location.path('/tasks/' + encodeURI($scope.newTask.name));
     };
 
     $scope.newTask = {};
     $scope.displayTask = function() {
       if ($cordovaNetwork.isOnline()) {
-          $http.post('/api/tasks',  {
-              name: $scope.newTask.name,
-              list: $scope.newTask.list.id,
-              content: $scope.newTask.content
-          }).success(function (data) {
-              $scope.newTasks = {};
-              location.path('/tasks/' + data.id);
-              navigator.notification.alert('The task has just been saved!', null, 'Done', 'Ok');
-          }).error(function () {
-              navigator.notification.alert('Somethings went wrong!', null, 'Error', 'Ok');
+          $rootScope.$login(function () {
+            $http.post('/api/tasks',  {
+                name: $scope.newTask.name,
+                list: $scope.newTask.list.id,
+                content: $scope.newTask.content
+            }).success(function (data) {
+                $scope.newTasks = {};
+                $localStorage.lists.push(data);
+                $location.path('/tasks/' + encodeURI(data.name));
+                navigator.notification.alert('The task has just been saved online!', null, 'Done', 'Ok');
+            }).error(function () {
+                navigator.notification.alert('Somethings went wrong! It will be save offline.', null, 'Error', 'Ok');
+                displayTaskOffline();
+            });
           });
       } else {
-        if ($scope.newTask.list.id) {
-          $localStorage.lists.forEach(function (value, index) {
-            if (value.id = $scope.newTask.list.id) {
-              $localStorage.lists[index].tasks.push({
-                name: $scope.newTask.name,
-                content: $scope.newTask.content
-              });
-            }
-          });
-        } else {
-          $localStorage.toPublish.lists.forEach(function (value, index) {
-            if (value.name = $scope.newTask.list.name) {
-              $localStorage.toPublish.lists[index].tasks.push({
-                name: $scope.newTask.name,
-                content: $scope.newTask.content
-              });
-            }
-          });
-        }
-        $localStorage.toPublish.tasks.push({
-          name: $scope.newTask.name,
-          list: $scope.newTask.list.name,
-          content: $scope.newTask.content
-        });
+        displayTaskOffline();
       }
     };
 
