@@ -127,24 +127,31 @@
 
     $scope.newList = {};
     $scope.displayList = function() {
-      if ($cordovaNetwork.isOnline()) {
-        $rootScope.$login(function () {
-            $http.post('http://' + localStorageService.get('adress') + '/api/lists',  {
-                name: $scope.newList.name
-            }).success(function (data) {
-                $scope.newList = {};
-                var lists = localStorageService.get('lists');
-                lists.push(data);
-                localStorageService.set('lists', lists);
-                $scope.lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
-                navigator.notification.alert('The list has just been saved online!', null, 'Done', 'Ok');
-            }).error(function () {
-                navigator.notification.alert('Somethings went wrong! It will be saved offline.', null, 'Error', 'Ok');
-                displayListOffline();
-            });
-        });
+      var check = $scope.lists.filter(function (list) {
+        return $scope.newList.name == list.name;
+      }).length;
+      if (check) {
+        navigator.notification.alert('You can\'t have multiple lists with the same name.', null, 'Error', 'Ok');
       } else {
-        displayListOffline();
+        if ($cordovaNetwork.isOnline()) {
+          $rootScope.$login(function () {
+              $http.post('http://' + localStorageService.get('adress') + '/api/lists',  {
+                  name: $scope.newList.name
+              }).success(function (data) {
+                  $scope.newList = {};
+                  var lists = localStorageService.get('lists');
+                  lists.push(data);
+                  localStorageService.set('lists', lists);
+                  $scope.lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
+                  navigator.notification.alert('The list has just been saved online!', null, 'Done', 'Ok');
+              }).error(function () {
+                  navigator.notification.alert('It will be saved offline.', null, 'Information', 'Ok');
+                  displayListOffline();
+              });
+          });
+        } else {
+          displayListOffline();
+        }
       }
     };
 
@@ -196,7 +203,7 @@
                 $location.path('/tasks/' + encodeURI(data.name));
                 navigator.notification.alert('The task has just been saved online!', null, 'Done', 'Ok');
             }).error(function () {
-                navigator.notification.alert('Somethings went wrong! It will be save offline.', null, 'Error', 'Ok');
+                navigator.notification.alert('It will be save offline.', null, 'Information', 'Ok');
                 displayTaskOffline();
             });
           });
