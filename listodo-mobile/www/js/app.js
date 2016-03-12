@@ -9,7 +9,7 @@
         templateUrl: 'views/list.html',
         controller: 'ListodoTasksCtrl'
     })
-    .when('/tasks/:name', {
+    .when('/tasks/:list/:name', {
         templateUrl: 'views/task.html',
         controller: 'ListodoTasksIdCtrl'
     })
@@ -61,6 +61,7 @@
         localStorageService.set('lists', []);
         localStorageService.set('listsToPublish', []);
         localStorageService.set('tasksToPublish', []);
+        localStorageService.set('tasksToRemove', []);
         $scope.start = function () {
             localStorageService.set('adress', $scope.adress);
             localStorageService.set('user', $scope.user);
@@ -74,8 +75,8 @@
 
     $rootScope.nav = 'tasks';
 
-    $scope.goTask = function (task) {
-        $location.path('/tasks/' + encodeURI(task.name));
+    $scope.goTask = function (list, task) {
+        $location.path('/tasks/' + encodeURI(list.name) + '/' + encodeURI(task.name));
     };
 
     $scope.goCreation = function () {
@@ -97,17 +98,50 @@
 
     $rootScope.nav = '';
 
-    var name = decodeURI($routeParams.name);
     var lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
 
     lists.forEach(function (list) {
       list.tasks.forEach(function (task) {
-        if (name == task.name) {
+        if (decodeURI($routeParams.name) == task.name && decodeURI($routeParams.list) == list.name) {
           $scope.currentTask = task;
           $scope.currentTask.list = list;
         }
       });
     });
+
+    $scope.removeTask = function () {
+      var listsToPublish = localStorageService.get('listsToPublish');
+      var tasksToPublish = localStorageService.get('tasksToPublish');
+      var tasksToRemove = localStorageService.get('tasksToRemove');
+      var lists = localStorageService.get('lists');
+
+      tasksToRemove.push({
+        name: $scope.currentTask.name,
+        list: $scope.currentTask.list.name
+      });
+      localStorageService.set('tasksToRemove', tasksToRemove);
+
+      var deleteFromList = function (list, listIndex, array) {
+        if (list.name == $scope.currentTask.list.name) {
+          list.tasks.forEach(function (task, taskIndex) {
+            if (task.name == $scope.currentTask.name) {
+              array[listIndex].tasks.splice(taskIndex, 1);
+            }
+          });
+        }
+      };
+      lists.forEach(deleteFromList);
+      localStorageService.set('lists', lists);
+      listsToPublish.forEach(deleteFromList);
+      localStorageService.set('listsToPublish', listsToPublish);
+
+      tasksToPublish.forEach(function (task, index) {
+        if (task.name == $scope.currentTask.name && task.list == $scope.currentTask.list.name) {
+          tasksToPublish.splice(index, 1);
+        }
+      });
+      localStorageService.set('tasksToPublish', tasksToPublish);
+    };
 }).controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork) {
     $anchorScroll();
 
@@ -145,7 +179,6 @@
                   $scope.lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
                   navigator.notification.alert('The list has just been saved online!', null, 'Done', 'Ok');
               }).error(function () {
-                  navigator.notification.alert('It will be saved offline.', null, 'Information', 'Ok');
                   displayListOffline();
               });
           });
@@ -167,10 +200,17 @@
             localStorageService.set('lists', lists);
           }
         });
+        var tasks = localStorageService.get('tasksToPublish');
+        tasks.push({
+          name: $scope.newTask.name,
+          list: $scope.newTask.list.id,
+          content: $scope.newTask.content
+        })
+        localStorageService.set('tasksToPublish', tasks);
       } else {
         var lists = localStorageService.get('listsToPublish');
         lists.forEach(function (value, index) {
-          if (value.name = $scope.newTask.list.name) {
+          if (value.name == $scope.newTask.list.name) {
             lists[index].tasks.push({
               name: $scope.newTask.name,
               content: $scope.newTask.content,
@@ -180,30 +220,24 @@
           }
         });
       }
-      var tasks = localStorageService.get('tasksToPublish');
-      tasks.push({
-        name: $scope.newTask.name,
-        list: $scope.newTask.list.name,
-        content: $scope.newTask.content
-      })
-      localStorageService.set('tasksToPublish', tasks);
-      $location.path('/tasks/' + encodeURI($scope.newTask.name));
+      $location.path('/tasks/' + encodeURI($scope.newTask.list.name) + '/' + encodeURI($scope.newTask.name));
     };
 
     $scope.newTask = {};
     $scope.displayTask = function() {
       if ($cordovaNetwork.isOnline()) {
           $rootScope.$login(function () {
-            $http.post('/api/tasks',  {
+            $http.post('http://' + localStorageService.get('adress') + '/api/tasks',  {
                 name: $scope.newTask.name,
                 list: $scope.newTask.list.id,
                 content: $scope.newTask.content
             }).success(function (data) {
-                $scope.newTasks = {};
-                $location.path('/tasks/' + encodeURI(data.name));
                 navigator.notification.alert('The task has just been saved online!', null, 'Done', 'Ok');
+                var lists = localStorageService.get('lists');
+                lists.push(data);
+                localStorageService.set('lists', lists);
+                $location.path('/tasks/' + encodeURI($scope.newTask.list.name) + '/' + encodeURI($scope.newTask.name));
             }).error(function () {
-                navigator.notification.alert('It will be save offline.', null, 'Information', 'Ok');
                 displayTaskOffline();
             });
           });
