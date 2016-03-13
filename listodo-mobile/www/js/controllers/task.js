@@ -14,7 +14,7 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
       });
     });
 
-    $scope.removeTask = function () {
+    var removeTaskOffline = function () {
       var listsToPublish = localStorageService.get('listsToPublish');
       var tasksToPublish = localStorageService.get('tasksToPublish');
       var tasksToRemove = localStorageService.get('tasksToRemove');
@@ -46,5 +46,88 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
         }
       });
       localStorageService.set('tasksToPublish', tasksToPublish);
+      $location.path('/tasks');
+    };
+
+    $scope.removeTask = function () {
+      if ($cordovaNetwork.isOnline() && $scope.currentTask.list.id) {
+          $rootScope.$login(function () {
+            $http.delete('http://' + localStorageService.get('adress') + '/api/tasks/' + $scope.currentTask.list.id)
+            .success(function () {
+                navigator.notification.alert('The task has just been deleted online!', null, 'Done', 'Ok');
+                var lists = localStorageService.get('lists');
+                lists.forEach(function (list, index) {
+                  if (list.name == $scope.currentTask.list.name) {
+                    list.tasks.forEach(function (task, taskIndex) {
+                      if (task.name == $scope.currentTask.name) {
+                        lists[listIndex].tasks.splice(taskIndex, 1);
+                      }
+                    });
+                  }
+                });
+                localStorageService.set('lists', lists);
+            }).error(function () {
+                removeTaskOffline();
+            });
+          });
+      } else {
+        removeTaskOffline();
+      }
+    };
+
+    var updateTaskOffline = function () {
+      var listsToPublish = localStorageService.get('listsToPublish');
+      var tasksToPublish = localStorageService.get('tasksToPublish');
+      var lists = localStorageService.get('lists');
+
+
+      var updateFromList = function (list, listIndex, array) {
+        if (list.name == $scope.currentTask.list.name) {
+          list.tasks.forEach(function (task, taskIndex) {
+            if (task.name == $scope.currentTask.name) {
+              array[listIndex].tasks[taskIndex].name = $scope.currentTask.name;
+              array[listIndex].tasks[taskIndex].content = $scope.currentTask.content;
+            }
+          });
+        }
+      };
+      lists.forEach(updateFromList);
+      localStorageService.set('lists', lists);
+      listsToPublish.forEach(updateFromList);
+      localStorageService.set('listsToPublish', listsToPublish);
+
+      tasksToPublish.forEach(function (task, index) {
+        if (task.name == $scope.currentTask.name && task.list == $scope.currentTask.list.name) {
+          tasksToPublish[index].name = $scope.newTask.name;
+          tasksToPublish[index].content = $scope.newTask.content;
+        }
+      });
+      localStorageService.set('tasksToPublish', tasksToPublish);
+      $scope.editing = false;
+    };
+
+    $scope.updateTask = function () {
+      if ($cordovaNetwork.isOnline() && $scope.currentTask.list.id) {
+          $rootScope.$login(function () {
+            $http.put('http://' + localStorageService.get('adress') + '/api/tasks/' + $scope.currentTask.list.id,  {
+                name: $scope.newTask.name,
+                content: $scope.newTask.content
+            }).success(function (data) {
+                navigator.notification.alert('The task has just been updated online!', null, 'Done', 'Ok');
+                var lists = localStorageService.get('lists');
+                lists.forEach(function (list, index) {
+                  if (list.id == $scope.newTask.list.id) {
+                    lists[index].tasks.push(data);
+                  }
+                });
+                localStorageService.set('lists', lists);
+                $scope.editing = false;
+            }).error(function () {
+                updateTaskOffline();
+            });
+          });
+      } else {
+        updateTaskOffline();
+      }
     };
 });
