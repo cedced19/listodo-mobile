@@ -7,10 +7,6 @@ app.controller('ListodoTasksCtrl', function ($scope, $rootScope, $location, loca
         $location.path('/tasks/' + encodeURI(list.name) + '/' + encodeURI(task.name));
     };
 
-    $scope.goCreation = function () {
-        $location.path('/creation');
-    };
-
     if ($cordovaNetwork.isOffline()) {
         $scope.lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
     } else {

@@ -13,6 +13,10 @@ app.config(function ($routeProvider, localStorageServiceProvider) {
         templateUrl: 'views/task.html',
         controller: 'ListodoTasksIdCtrl'
     })
+    .when('/completed', {
+        templateUrl: 'views/completed.html',
+        controller: 'ListodoTasksCompletedCtrl'
+    })
     .when('/config', {
         templateUrl: 'views/config.html',
         controller: 'ListodoConfigCtrl'
@@ -53,5 +57,8 @@ app.run(function ($rootScope, $location, $http, localStorageService) {
             cb();
           }
         }).error(cb);
+    };
+    $rootScope.$goCreation = function () {
+        $location.path('/creation');
     };
 });

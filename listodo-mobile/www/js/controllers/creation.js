@@ -81,7 +81,7 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
 
     $scope.newTask = {};
     $scope.displayTask = function() {
-      if ($cordovaNetwork.isOnline()) {
+      if ($cordovaNetwork.isOnline() && $scope.newTask.list.id) {
           $rootScope.$login(function () {
             $http.post('http://' + localStorageService.get('adress') + '/api/tasks',  {
                 name: $scope.newTask.name,
@@ -90,7 +90,11 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
             }).success(function (data) {
                 navigator.notification.alert('The task has just been saved online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
-                lists.push(data);
+                lists.forEach(function (list, index) {
+                  if (list.id == $scope.newTask.list.id) {
+                    lists[index].tasks.push(data);
+                  }
+                });
                 localStorageService.set('lists', lists);
                 $location.path('/tasks/' + encodeURI($scope.newTask.list.name) + '/' + encodeURI($scope.newTask.name));
             }).error(function () {

@@ -16,6 +16,7 @@
                 <nav class="menu" ng-hide="nav == 'home'">
                     <a ng-click="$menu.hide('tasks')" ng-class="{active: nav == 'tasks'}"><i class="glyphicon glyphicon-th-list"></i> Tasks</a>
                     <a ng-click="$menu.hide('creation')" ng-class="{active: nav == 'creation'}"><i class="glyphicon glyphicon-pencil"></i> Creation</a>
+                    <a ng-click="$menu.hide('completed')" ng-class="{active: nav == 'completed'}"><i class="glyphicon glyphicon-ok"></i> Completed</a>
                     <a ng-click="$menu.hide('config')" ng-class="{active: nav == 'config'}"><i class="glyphicon glyphicon-cog"></i> Configuration</a>
                 </nav>
                 <span class="header-logo">Listodo</span>
@@ -46,6 +47,7 @@
     <script src="js/controllers/task.js"></script>
     <script src="js/controllers/config.js"></script>
     <script src="js/controllers/creation.js"></script>
+    <script src="js/controllers/completed.js"></script>
 
 </body>
 </html>
