@@ -3,13 +3,15 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
 
     $rootScope.nav = '';
 
-    var lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
+    var lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish')),
+        beforeName;
 
     lists.forEach(function (list) {
       list.tasks.forEach(function (task) {
         if (decodeURI($routeParams.name) == task.name && decodeURI($routeParams.list) == list.name) {
           $scope.currentTask = task;
           $scope.currentTask.list = list;
+          beforeName = task.name;
         }
       });
     });
@@ -56,7 +58,7 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
             .success(function () {
                 navigator.notification.alert('The task has just been deleted online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
-                lists.forEach(function (list, index) {
+                lists.forEach(function (list, listIndex) {
                   if (list.name == $scope.currentTask.list.name) {
                     list.tasks.forEach(function (task, taskIndex) {
                       if (task.name == $scope.currentTask.name) {
@@ -84,7 +86,7 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
       var updateFromList = function (list, listIndex, array) {
         if (list.name == $scope.currentTask.list.name) {
           list.tasks.forEach(function (task, taskIndex) {
-            if (task.name == $scope.currentTask.name) {
+            if (task.name == beforeName) {
               array[listIndex].tasks[taskIndex].name = $scope.currentTask.name;
               array[listIndex].tasks[taskIndex].content = $scope.currentTask.content;
             }
@@ -98,8 +100,8 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
 
       tasksToPublish.forEach(function (task, index) {
         if (task.name == $scope.currentTask.name && task.list == $scope.currentTask.list.name) {
-          tasksToPublish[index].name = $scope.newTask.name;
-          tasksToPublish[index].content = $scope.newTask.content;
+          tasksToPublish[index].name = $scope.currentTask.name;
+          tasksToPublish[index].content = $scope.currentTask.content;
         }
       });
       localStorageService.set('tasksToPublish', tasksToPublish);
@@ -110,14 +112,19 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
       if ($cordovaNetwork.isOnline() && $scope.currentTask.list.id) {
           $rootScope.$login(function () {
             $http.put('http://' + localStorageService.get('adress') + '/api/tasks/' + $scope.currentTask.list.id,  {
-                name: $scope.newTask.name,
-                content: $scope.newTask.content
+                name: $scope.currentTask.name,
+                content: $scope.currentTask.content
             }).success(function (data) {
                 navigator.notification.alert('The task has just been updated online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
-                lists.forEach(function (list, index) {
-                  if (list.id == $scope.newTask.list.id) {
-                    lists[index].tasks.push(data);
+                lists.forEach(function (list, listIndex) {
+                  if (list.name == $scope.currentTask.list.name) {
+                    list.tasks.forEach(function (task, taskIndex) {
+                      if (task.name == $scope.currentTask.name) {
+                        lists[listIndex].tasks.splice(taskIndex, 1);
+                        lists[listIndex].tasks.push(data);
+                      }
+                    });
                   }
                 });
                 localStorageService.set('lists', lists);
