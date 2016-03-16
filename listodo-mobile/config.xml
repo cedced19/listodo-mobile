@@ -25,16 +25,6 @@
     <icon src="res/icons/android/icon-96-xhdpi.png" density="xhdpi" />
     <icon src="res/icons/android/icon-144-xxhdpi.png" density="xxhdpi" />
   </platform>
-  <platform name="android">
-    <splash src="res/screens/android/screen-hdpi-landscape.png" density="land-hdpi" />
-    <splash src="res/screens/android/screen-ldpi-landscape.png" density="land-ldpi" />
-    <splash src="res/screens/android/screen-mdpi-landscape.png" density="land-mdpi" />
-    <splash src="res/screens/android/screen-xhdpi-landscape.png" density="land-xhdpi" />
-    <splash src="res/screens/android/screen-hdpi-portrait.png" density="port-hdpi" />
-    <splash src="res/screens/android/screen-ldpi-portrait.png" density="port-ldpi" />
-    <splash src="res/screens/android/screen-mdpi-portrait.png" density="port-mdpi" />
-    <splash src="res/screens/android/screen-xhdpi-portrait.png" density="port-xhdpi" />
-  </platform>
   <plugin name="cordova-plugin-dialogs" version="1.2.0" />
   <plugin name="cordova-plugin-network-information" version="1.2.0" />
   <plugin name="cordova-plugin-statusbar" version="2.1.0" />

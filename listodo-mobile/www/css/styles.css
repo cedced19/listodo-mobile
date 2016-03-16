@@ -73,7 +73,7 @@ h2#reset {
 }
 .task-action {
     position:relative;
-	float: right;
+		float: right;
 }
 .container a, .container a:link {
     border-bottom: 1px dotted #FB9A00;
@@ -114,7 +114,7 @@ h2#reset {
     margin-left: 8px;
     color: #FFF;
     background-color: #FB9A00;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     float: right;
