@@ -18,6 +18,7 @@ app.controller('ListodoConfigCtrl', function ($scope, $rootScope, $location, loc
           localStorageService.set('listsToPublish', []);
           localStorageService.set('tasksToPublish', []);
           localStorageService.set('tasksToRemove', []);
+          localStorageService.set('tasksToUpdate', []);
           localStorageService.set('adress', false);
           localStorageService.set('user', false);
           $location.path('/');

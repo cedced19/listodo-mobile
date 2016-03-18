@@ -99,19 +99,42 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
       localStorageService.set('listsToPublish', listsToPublish);
 
       tasksToPublish.forEach(function (task, index) {
-        if (task.name == $scope.currentTask.name && task.list == $scope.currentTask.list.name) {
+        if (task.name == beforeName && task.list == $scope.currentTask.list.id) {
           tasksToPublish[index].name = $scope.currentTask.name;
           tasksToPublish[index].content = $scope.currentTask.content;
         }
       });
       localStorageService.set('tasksToPublish', tasksToPublish);
+
+      if ($scope.currentTask.id) {
+        var tasksToUpdate = localStorageService.get('tasksToUpdate');
+        var contains = function () {
+          for (var i = 0; i < tasksToUpdate.length; i++) {
+              if (tasksToUpdate[i].id === $scope.currentTask.id) {
+                tasksToUpdate[i].name = $scope.currentTask.name;
+                tasksToUpdate[i].content = $scope.currentTask.content;
+                return true;
+              }
+          }
+          return false
+        }
+        if (!contains()) {
+          tasksToUpdate.push({
+            name: $scope.currentTask.name,
+            content: $scope.currentTask.content,
+            id: $scope.currentTask.id
+          })
+        };
+        localStorageService.set('tasksToUpdate', tasksToUpdate);
+      }
+
       $scope.editing = false;
     };
 
     $scope.updateTask = function () {
-      if ($cordovaNetwork.isOnline() && $scope.currentTask.list.id) {
+      if ($cordovaNetwork.isOnline() && $scope.currentTask.id) {
           $rootScope.$login(function () {
-            $http.put('http://' + localStorageService.get('adress') + '/api/tasks/' + $scope.currentTask.list.id,  {
+            $http.put('http://' + localStorageService.get('adress') + '/api/tasks/' + $scope.currentTask.id,  {
                 name: $scope.currentTask.name,
                 content: $scope.currentTask.content
             }).success(function (data) {

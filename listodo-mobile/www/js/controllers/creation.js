@@ -51,7 +51,8 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
           if (value.id = $scope.newTask.list.id) {
             lists[index].tasks.push({
               name: $scope.newTask.name,
-              content: $scope.newTask.content
+              content: $scope.newTask.content,
+              createdAt: new Date()
             });
             localStorageService.set('lists', lists);
           }
