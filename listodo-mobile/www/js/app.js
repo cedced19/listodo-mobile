@@ -32,7 +32,45 @@ app.config(function ($routeProvider, localStorageServiceProvider) {
     .setPrefix('listodo')
     .setNotify(false, false);
 });
-app.run(function ($rootScope, $location, $http, localStorageService) {
+app.factory('serverService', function($http, localStorageService) {
+  return {
+    adress: function () {
+      return 'http://' + localStorageService.get('adress');
+    },
+    login: function (cb) {
+      var adress = this.adress();
+      $http.get(adress + '/authenticated').success(function (data) {
+          if (!data.status) {
+            $http.post(adress + '/login', {
+              email: localStorageService.get('user').email,
+              password: localStorageService.get('user').password
+            }).success(cb).error(cb);
+          } else {
+            cb();
+          }
+      }).error(cb);
+    },
+    sync: function(cb) {
+      var adress = this.adress();
+      this.login(function () {
+        $http.post(adress + '/api/sync', {
+          tasksToPublish: localStorageService.get('tasksToPublish'),
+          tasksToUpdate: localStorageService.get('tasksToUpdate'),
+          tasksToRemove: localStorageService.get('tasksToRemove'),
+          listsToPublish: localStorageService.get('listsToPublish')
+        }).success(function (data) {
+          localStorageService.set('tasksToPublish', []);
+          localStorageService.set('tasksToUpdate', []);
+          localStorageService.set('tasksToRemove', []);
+          localStorageService.set('listsToPublish', []);
+          localStorageService.set('lists', data);
+          cb(data);
+        });
+      });
+    }
+  };
+});
+app.run(function ($rootScope, $location) {
     $rootScope.$menu = {
         show: function () {
             if ($rootScope.nav != 'home') {
@@ -45,20 +83,5 @@ app.run(function ($rootScope, $location, $http, localStorageService) {
                 $location.path('/' + path);
             }
         }
-    };
-    $rootScope.$login = function (cb) {
-      $http.get('http://' + localStorageService.get('adress') + '/authenticated').success(function (data) {
-          if (!data.status) {
-            $http.post('/login', {
-              name: localStorageService.get('user').email,
-              password: localStorageService.get('user').password
-            }).success(cb).error(cb);
-          } else {
-            cb();
-          }
-        }).error(cb);
-    };
-    $rootScope.$goCreation = function () {
-        $location.path('/creation');
     };
 });

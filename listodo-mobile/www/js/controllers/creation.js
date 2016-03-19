@@ -1,4 +1,4 @@
-app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork) {
+app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, serverService) {
     $anchorScroll();
 
     $rootScope.nav = 'creation';
@@ -24,8 +24,8 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
         navigator.notification.alert('You can\'t have multiple lists with the same name.', null, 'Error', 'Ok');
       } else {
         if ($cordovaNetwork.isOnline()) {
-          $rootScope.$login(function () {
-              $http.post('http://' + localStorageService.get('adress') + '/api/lists',  {
+          serverService.login(function () {
+              $http.post(serverService.adress() + '/api/lists',  {
                   name: $scope.newList.name
               }).success(function (data) {
                   $scope.newList = {};
@@ -83,8 +83,8 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
     $scope.newTask = {};
     $scope.displayTask = function() {
       if ($cordovaNetwork.isOnline() && $scope.newTask.list.id) {
-          $rootScope.$login(function () {
-            $http.post('http://' + localStorageService.get('adress') + '/api/tasks',  {
+          serverService.login(function () {
+            $http.post(serverService.adress() + '/api/tasks',  {
                 name: $scope.newTask.name,
                 list: $scope.newTask.list.id,
                 content: $scope.newTask.content

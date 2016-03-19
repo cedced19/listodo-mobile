@@ -1,4 +1,4 @@
-app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, $routeParams) {
+app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, $routeParams, serverService) {
     $anchorScroll();
 
     $rootScope.nav = '';
@@ -15,6 +15,10 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
         }
       });
     });
+
+    $scope.goCreation = function () {
+        $location.path('/creation');
+    };
 
     var removeTaskOffline = function () {
       var listsToPublish = localStorageService.get('listsToPublish');
@@ -66,8 +70,8 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
 
     $scope.removeTask = function () {
       if ($cordovaNetwork.isOnline() && $scope.currentTask.list.id) {
-          $rootScope.$login(function () {
-            $http.delete('http://' + localStorageService.get('adress') + '/api/tasks/' + $scope.currentTask.list.id)
+          serverService.login(function () {
+            $http.delete(serverService.adress() + '/api/tasks/' + $scope.currentTask.list.id)
             .success(function () {
                 navigator.notification.alert('The task has just been deleted online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
@@ -148,8 +152,8 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
 
     $scope.updateTask = function () {
       if ($cordovaNetwork.isOnline() && $scope.currentTask.id) {
-          $rootScope.$login(function () {
-            $http.put('http://' + localStorageService.get('adress') + '/api/tasks/' + $scope.currentTask.id,  {
+          serverService.login(function () {
+            $http.put(serverService.adress() + '/api/tasks/' + $scope.currentTask.id,  {
                 name: $scope.currentTask.name,
                 content: $scope.currentTask.content
             }).success(function (data) {
