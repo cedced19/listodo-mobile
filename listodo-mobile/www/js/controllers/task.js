@@ -84,6 +84,7 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
                     });
                   }
                 });
+                $location.path('/tasks');
                 localStorageService.set('lists', lists);
             }).error(function () {
                 removeTaskOffline();
@@ -147,6 +148,7 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
         localStorageService.set('tasksToUpdate', tasksToUpdate);
       }
 
+      beforeName = $scope.currentTask.name;
       $scope.editing = false;
     };
 

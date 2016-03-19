@@ -32,7 +32,7 @@ app.config(function ($routeProvider, localStorageServiceProvider) {
     .setPrefix('listodo')
     .setNotify(false, false);
 });
-app.factory('serverService', function($http, localStorageService) {
+app.factory('serverService', function($http, localStorageService, $rootScope) {
   return {
     adress: function () {
       return 'http://' + localStorageService.get('adress');
@@ -52,6 +52,7 @@ app.factory('serverService', function($http, localStorageService) {
     },
     sync: function(cb) {
       var adress = this.adress();
+      $rootScope.syncing = true;
       this.login(function () {
         $http.post(adress + '/api/sync', {
           tasksToPublish: localStorageService.get('tasksToPublish'),
@@ -64,6 +65,7 @@ app.factory('serverService', function($http, localStorageService) {
           localStorageService.set('tasksToRemove', []);
           localStorageService.set('listsToPublish', []);
           localStorageService.set('lists', data);
+          $rootScope.syncing = false;
           cb(data);
         });
       });

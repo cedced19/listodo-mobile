@@ -1,7 +1,13 @@
-app.controller('ListodoTasksCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, serverService) {
+app.controller('ListodoTasksCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, serverService) {
     $anchorScroll();
 
     $rootScope.nav = 'tasks';
+
+    $rootScope.sync = function () {
+        serverService.sync(function (data) {
+          $scope.lists = data;
+        });
+    }
 
     $scope.goTask = function (list, task) {
         $location.path('/tasks/' + encodeURI(list.name) + '/' + encodeURI(task.name));

@@ -20,6 +20,7 @@
                     <a ng-click="$menu.hide('config')" ng-class="{active: nav == 'config'}"><i class="glyphicon glyphicon-cog"></i> Configuration</a>
                 </nav>
                 <span class="header-logo">Listodo</span>
+                <a class="header-sync glyphicon glyphicon-transfer" ng-show="nav == 'tasks' && !syncing" ng-click="sync()"></a>
             </header>
 
             <div class="site-content">
