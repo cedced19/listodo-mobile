@@ -69,9 +69,9 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
     };
 
     $scope.removeTask = function () {
-      if ($cordovaNetwork.isOnline() && $scope.currentTask.list.id) {
+      if ($cordovaNetwork.isOnline() && $scope.currentTask.id) {
           serverService.login(function () {
-            $http.delete(serverService.adress() + '/api/tasks/' + $scope.currentTask.list.id)
+            $http.delete(serverService.adress() + '/api/tasks/' + $scope.currentTask.id)
             .success(function () {
                 navigator.notification.alert('The task has just been deleted online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
@@ -84,8 +84,8 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
                     });
                   }
                 });
-                $location.path('/tasks');
                 localStorageService.set('lists', lists);
+                $location.path('/tasks');
             }).error(function () {
                 removeTaskOffline();
             });
