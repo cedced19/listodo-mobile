@@ -18,7 +18,6 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
 
     var removeTaskOffline = function () {
       var listsToPublish = localStorageService.get('listsToPublish');
-      var tasksToPublish = localStorageService.get('tasksToPublish');
       var tasksToRemove = localStorageService.get('tasksToRemove');
       var lists = localStorageService.get('lists');
 
@@ -42,12 +41,26 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
       listsToPublish.forEach(deleteFromList);
       localStorageService.set('listsToPublish', listsToPublish);
 
-      tasksToPublish.forEach(function (task, index) {
-        if (task.name == $scope.currentTask.name && task.list == $scope.currentTask.list.name) {
-          tasksToPublish.splice(index, 1);
-        }
-      });
-      localStorageService.set('tasksToPublish', tasksToPublish);
+      if ($scope.currentTask.list.id) {
+        var tasksToPublish = localStorageService.get('tasksToPublish');
+        tasksToPublish.forEach(function (task, index) {
+          if (task.name == $scope.currentTask.name && task.list == $scope.currentTask.list.id) {
+            tasksToPublish.splice(index, 1);
+          }
+        });
+        localStorageService.set('tasksToPublish', tasksToPublish);
+      }
+
+      if ($scope.currentTask.id) {
+        var tasksToUpdate = localStorageService.get('tasksToUpdate');
+        tasksToUpdate.forEach(function (task, index) {
+          if (task.id == $scope.currentTask.id) {
+            tasksToUpdate.splice(index, 1);
+          }
+        });
+        localStorageService.set('tasksToUpdate', tasksToUpdate);
+      }
+
       $location.path('/tasks');
     };
 
@@ -79,7 +92,6 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
 
     var updateTaskOffline = function () {
       var listsToPublish = localStorageService.get('listsToPublish');
-      var tasksToPublish = localStorageService.get('tasksToPublish');
       var lists = localStorageService.get('lists');
 
 
@@ -98,13 +110,16 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
       listsToPublish.forEach(updateFromList);
       localStorageService.set('listsToPublish', listsToPublish);
 
-      tasksToPublish.forEach(function (task, index) {
-        if (task.name == beforeName && task.list == $scope.currentTask.list.id) {
-          tasksToPublish[index].name = $scope.currentTask.name;
-          tasksToPublish[index].content = $scope.currentTask.content;
-        }
-      });
-      localStorageService.set('tasksToPublish', tasksToPublish);
+      if ($scope.currentTask.list.id) {
+        var tasksToPublish = localStorageService.get('tasksToPublish');
+        tasksToPublish.forEach(function (task, index) {
+          if (task.name == beforeName && task.list == $scope.currentTask.list.id) {
+            tasksToPublish[index].name = $scope.currentTask.name;
+            tasksToPublish[index].content = $scope.currentTask.content;
+          }
+        });
+        localStorageService.set('tasksToPublish', tasksToPublish);
+      }
 
       if ($scope.currentTask.id) {
         var tasksToUpdate = localStorageService.get('tasksToUpdate');
