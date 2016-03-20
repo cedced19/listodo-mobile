@@ -6,4 +6,4 @@ You can download it from:
 * Github: [listodo.apk](https://github.com/cedced19/listodo-mobile/releases/latest)
 * Google play: search "Listodo" on the store or go [there](https://play.google.com/store/apps/details?id=io.github.cedced19.listodomobile)
 
-![](https://raw.githubusercontent.com/cedced19/listodo-mobile/master/demo.png)
+![](https://raw.githubusercontent.com/cedced19/listodo-mobile/master/demo.jpg)
