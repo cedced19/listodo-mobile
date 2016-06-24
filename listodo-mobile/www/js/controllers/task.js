@@ -1,8 +1,6 @@
 app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, $routeParams, serverService) {
     $anchorScroll();
 
-    $rootScope.nav = '';
-
     var lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish')),
         beforeName;
 

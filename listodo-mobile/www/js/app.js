@@ -86,4 +86,7 @@ app.run(function ($rootScope, $location) {
             }
         }
     };
+    $rootScope.$on('$routeChangeSuccess', function(event, next, current) {
+          $rootScope.nav = $location.path().substring(1);
+    });
 });

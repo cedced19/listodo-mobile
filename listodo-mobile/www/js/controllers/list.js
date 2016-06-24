@@ -1,8 +1,6 @@
 app.controller('ListodoTasksCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, serverService) {
     $anchorScroll();
 
-    $rootScope.nav = 'tasks';
-
     $rootScope.sync = function () {
         serverService.sync(function (data) {
           $scope.lists = data;

@@ -1,7 +1,6 @@
 app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, serverService) {
     $anchorScroll();
 
-    $rootScope.nav = 'creation';
     $scope.lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
 
     var displayListOffline = function () {

@@ -1,8 +1,6 @@
 app.controller('ListodoConfigCtrl', function ($scope, $rootScope, $location, localStorageService, $anchorScroll) {
     $anchorScroll();
 
-    $rootScope.nav = 'config';
-
     $scope.adress = localStorageService.get('adress');
     $scope.user = localStorageService.get('user');
 
