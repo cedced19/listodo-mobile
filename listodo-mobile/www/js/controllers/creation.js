@@ -32,7 +32,6 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
                   lists.push(data);
                   localStorageService.set('lists', lists);
                   $scope.lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
-                  navigator.notification.alert('The list has just been saved online!', null, 'Done', 'Ok');
               }).error(function () {
                   displayListOffline();
               });
@@ -88,7 +87,6 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
                 list: $scope.newTask.list.id,
                 content: $scope.newTask.content
             }).success(function (data) {
-                navigator.notification.alert('The task has just been saved online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
                 lists.forEach(function (list, index) {
                   if (list.id == $scope.newTask.list.id) {

@@ -4,24 +4,24 @@
     <span class="glyphicon glyphicon-ok
  task-action" ng-click="removeTask()"></span>
 </h1>
-<h1 ng-show="editing">Editing</h1>
+<h1 ng-show="editing">{{ 'editing' | translate }}</h1>
 <p class="task-info">
-    <b>Created at:</b> {{currentTask.createdAt | date: 'dd/MM/yyyy HH:mm'}}
+    <b>{{ 'created_at' | translate }}:</b> {{ 'date_template' | translate:{date: currentTask.createdAt} }} {{ currentTask.createdAt | date: 'HH:mm' }}
     <br>
-    <b>List:</b> {{currentTask.list.name}}
+    <b>{{ 'list' | translate }}:</b> {{currentTask.list.name}}
 </p>
 <p ng-hide="editing">{{currentTask.content}}</p>
 <form name="formUpdate" ng-show="editing">
 	<div class="form-group">
-		<label for="task-name">Task name:</label>
-		<input type="text" id="task-name" class="form-control" placeholder="Task" ng-model="currentTask.name" required>
+		<label for="task-name">{{ 'task_name' | translate }}:</label>
+		<input type="text" id="task-name" class="form-control" placeholder="{{ 'task' | translate }}" ng-model="currentTask.name" required>
 	</div>
 	<div class="form-group">
-		<label for="task-content">Task description:</label>
-		<input type="text" id="task-content" class="form-control" placeholder="Task description" ng-model="currentTask.content">
+		<label for="task-content">{{ 'task_description' | translate }}:</label>
+		<input type="text" id="task-content" class="form-control" placeholder="{{ 'task_description' | translate }}" ng-model="currentTask.content">
 	</div>
 	<div class="text-center">
-		<button class="btn btn-success" ng-disabled="formUpdate.$invalid" ng-click="updateTask()" ng-show="editing">Update the task</button>
+		<button class="btn btn-success" ng-disabled="formUpdate.$invalid" ng-click="updateTask()" ng-show="editing" translate="update_task"></button>
 	</div>
 </form>
 <button class="floating-btn" ng-click="goCreation()">+</button>

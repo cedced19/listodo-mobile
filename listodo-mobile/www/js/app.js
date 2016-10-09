@@ -1,5 +1,5 @@
-﻿var app = angular.module('Listodo', ['ngRoute', 'LocalStorageModule', 'ngSanitize', 'ngTouch', 'ngCordovaNetwork']);
-app.config(function ($routeProvider, localStorageServiceProvider) {
+﻿var app = angular.module('Listodo', ['ngRoute', 'LocalStorageModule', 'ngSanitize', 'ngTouch', 'ngCordovaNetwork', 'pascalprecht.translate']);
+app.config(function ($routeProvider, localStorageServiceProvider, $translateProvider) {
     $routeProvider
     .when('/', {
         templateUrl: 'views/home.html',
@@ -28,9 +28,24 @@ app.config(function ($routeProvider, localStorageServiceProvider) {
     .otherwise({
         redirectTo: '/'
     });
+    
     localStorageServiceProvider
     .setPrefix('listodo')
     .setNotify(false, false);
+
+    $translateProvider
+    .useStaticFilesLoader({
+       prefix: '/langs/locale-',
+       suffix: '.json'
+    })
+    .registerAvailableLanguageKeys(['en', 'fr'], {
+     'fr_*': 'fr',
+     'en_*': 'en',
+     '*': 'en'
+    })
+    .useSanitizeValueStrategy(null)
+    .determinePreferredLanguage()
+    .fallbackLanguage('en');
 });
 app.factory('serverService', function($http, localStorageService, $rootScope) {
   return {
@@ -60,11 +75,10 @@ app.factory('serverService', function($http, localStorageService, $rootScope) {
           tasksToRemove: localStorageService.get('tasksToRemove'),
           listsToPublish: localStorageService.get('listsToPublish')
         }).success(function (data) {
-          localStorageService.set('tasksToPublish', []);
-          localStorageService.set('tasksToUpdate', []);
-          localStorageService.set('tasksToRemove', []);
-          localStorageService.set('listsToPublish', []);
           localStorageService.set('lists', data);
+          ['tasksToPublish', 'tasksToUpdate', 'tasksToRemove', 'listsToPublish'].forEach(function (val) {
+            localStorageService.set(val, []);
+          });
           $rootScope.syncing = false;
           cb(data);
         });

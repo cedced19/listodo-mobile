@@ -14,10 +14,10 @@
             <header class="header">
                 <a class="header-icon" ng-hide="nav == 'home'" ng-click="$menu.show()"></a>
                 <nav class="menu" ng-hide="nav == 'home'">
-                    <a ng-click="$menu.hide('tasks')" ng-class="{active: nav == 'tasks'}"><i class="glyphicon glyphicon-th-list"></i> Tasks</a>
-                    <a ng-click="$menu.hide('creation')" ng-class="{active: nav == 'creation'}"><i class="glyphicon glyphicon-pencil"></i> Creation</a>
-                    <a ng-click="$menu.hide('completed')" ng-class="{active: nav == 'completed'}"><i class="glyphicon glyphicon-ok"></i> Completed</a>
-                    <a ng-click="$menu.hide('config')" ng-class="{active: nav == 'config'}"><i class="glyphicon glyphicon-cog"></i> Configuration</a>
+                    <a ng-click="$menu.hide('tasks')" ng-class="{active: nav == 'tasks'}"><i class="glyphicon glyphicon-th-list"></i> {{ 'tasks' | translate }}</a>
+                    <a ng-click="$menu.hide('creation')" ng-class="{active: nav == 'creation'}"><i class="glyphicon glyphicon-pencil"></i> {{ 'creation' | translate }}</a>
+                    <a ng-click="$menu.hide('completed')" ng-class="{active: nav == 'completed'}"><i class="glyphicon glyphicon-ok"></i> {{ 'completed_tasks' | translate }}</a>
+                    <a ng-click="$menu.hide('config')" ng-class="{active: nav == 'config'}"><i class="glyphicon glyphicon-cog"></i> {{ 'configuration' | translate }}</a>
                 </nav>
                 <span class="header-logo">Listodo</span>
                 <a class="header-sync glyphicon glyphicon-transfer" ng-show="nav == 'tasks' && !syncing" ng-click="sync()"></a>
@@ -38,6 +38,9 @@
     <script src="js/angular-storage.min.js"></script>
     <script src="js/angular-touch.min.js"></script>
     <script src="js/angular-sanitize.min.js"></script>
+    <script src="js/angular-translate.min.js"></script>
+    <script src="js/angular-translate-loader-static-files.min.js"></script>
+    <script src="js/angular-translate-loader-url.min.js"></script>
     <script src="js/angular-cordova-network.js"></script>
 
     <script src="cordova.js"></script>

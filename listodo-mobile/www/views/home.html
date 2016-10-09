@@ -1,26 +1,20 @@
-﻿<h1>First configuration</h1>
-
-<p>
-    This application use the API of Listodo to get your tolo list online and <b>offline</b> on your phone.
-</p>
-
-<p>
-    Please set the internet adress of your Listodo server <i>(Ex: domain.com:7777)</i> and in the same occasion your account:
-</p>
+﻿<h1 translate="first_configuration"></h1>
+<p translate="app_description"></p>
+<p translate="set_adress_and_account"></p>
 <form name="formInit">
     <div class="form-group">
-        <label for="adress">Adress:</label>
-        <input type="text" id="adress" class="form-control" placeholder="Adress" ng-model="adress" required>
+        <label for="adress">{{ 'adress' | translate }}:</label>
+        <input type="text" id="adress" class="form-control" placeholder="{{ 'adress' | translate }}" ng-model="adress" required>
     </div>
     <div class="form-group">
-        <label for="email">User email:</label>
-        <input type="email" id="email" class="form-control" placeholder="Email" ng-model="user.email" required>
+        <label for="email">{{ 'user_email' | translate }}:</label>
+        <input type="email" id="email" class="form-control" placeholder="{{ 'email' | translate }}" ng-model="user.email" required>
     </div>
     <div class="form-group">
-        <label for="password">User password:</label>
-        <input type="password" id="password" class="form-control" placeholder="Password" ng-model="user.password" required>
+        <label for="password">{{ 'user_password' | translate }}:</label>
+        <input type="password" id="password" class="form-control" placeholder="{{ 'password' | translate }}" ng-model="user.password" required>
     </div>
     <div class="form-group">
-        <button class="btn btn-success" ng-disabled="formInit.$invalid" style="float:right;" ng-click="start()">Start manage</button>
+        <button class="btn btn-success" ng-disabled="formInit.$invalid" style="float:right;" ng-click="start()" translate="use_application"></button>
     </div>
 </form>

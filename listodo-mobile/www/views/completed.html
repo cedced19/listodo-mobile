@@ -1,11 +1,11 @@
-<h1>Completed tasks</h1>
-<p>You can find here all the tasks which are completed and not yet deleted on the Listodo server.</p>
+<h1 translate="completed_tasks"></h1>
+<p translate="completed_tasks_warning"></p>
 <input ng-model="search" type="text" class="form-control" placeholder="Search" style="margin-bottom: 10px"  ng-show="tasks.length">
 <table class="table table-striped table-hover" ng-show="tasks.length">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>List</th>
+            <th translate="name"></th>
+            <th translate="list"></th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +15,4 @@
         </tr>
     </tbody>
 </table>
-<p ng-hide="tasks.length">
-  As you can see, there is <b>no completed task</b>.
-</p>
+<p ng-hide="tasks.length" ng-bind-html="'no_completed_task' | translate"></p>
