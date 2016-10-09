@@ -1,11 +1,9 @@
 app.controller('ListodoHomeCtrl', function ($scope, $rootScope, $location, localStorageService) {
     if (!localStorageService.get('adress') || !localStorageService.get('user')) {
         $rootScope.nav = 'home';
-        localStorageService.set('lists', []);
-        localStorageService.set('listsToPublish', []);
-        localStorageService.set('tasksToPublish', []);
-        localStorageService.set('tasksToRemove', []);
-        localStorageService.set('tasksToUpdate', []);
+        ['tasksToPublish', 'tasksToUpdate', 'tasksToRemove', 'listsToPublish', 'list'].forEach(function (val) {
+          localStorageService.set(val, []);
+        });
         $scope.start = function () {
             localStorageService.set('adress', $scope.adress);
             localStorageService.set('user', $scope.user);

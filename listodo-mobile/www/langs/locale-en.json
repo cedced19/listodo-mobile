@@ -34,5 +34,12 @@
   "task_list": "Task list",
   "create_list": "Create a new list",
   "list_name": "List name",
-  "task": "Task"
+  "task": "Task",
+  "ok": "Ok",
+  "done": "Done",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "are_you_sure": "Are you sure?",
+  "adress_and_user_updated": "The adress and user has just been updated!",
+  "multiple_lists_name_warning": "You can't have multiple lists with the same name."
 }

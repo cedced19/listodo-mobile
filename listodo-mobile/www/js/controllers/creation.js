@@ -1,4 +1,4 @@
-app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, serverService) {
+app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, localStorageService, $http, $anchorScroll, $cordovaNetwork, serverService, $translate) {
     $anchorScroll();
 
     $scope.lists = localStorageService.get('lists').concat(localStorageService.get('listsToPublish'));
@@ -20,7 +20,9 @@ app.controller('ListodoCreationCtrl', function ($scope, $rootScope, $location, l
         return $scope.newList.name == list.name;
       }).length;
       if (check) {
-        navigator.notification.alert('You can\'t have multiple lists with the same name.', null, 'Error', 'Ok');
+        $translate(['multiple_lists_name_warning', 'ok', 'error']).then(function (translations) {
+          navigator.notification.alert(translations['multiple_lists_name_warning'], null, translations['error'], translations['ok']);
+        });
       } else {
         if ($cordovaNetwork.isOnline()) {
           serverService.login(function () {

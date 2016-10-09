@@ -34,5 +34,12 @@
   "task_list": "Liste de la tâche",
   "create_list": "Créer une liste",
   "list_name": "Nom de la liste",
-  "task": "Tâche"
+  "task": "Tâche",
+  "ok": "D'accord",
+  "done": "Terminé",
+  "cancel": "Annuler",
+  "confirm": "Confirmation",
+  "are_you_sure": "Êtes-vous certains ?",
+  "adress_and_user_updated": "L'adresse et l'utilisateur ont été mise à jour!",
+  "multiple_lists_name_warning": "Vous ne pouvez pas avoir plusieurs listes avec le même nom."
 }

@@ -71,7 +71,6 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
           serverService.login(function () {
             $http.delete(serverService.adress() + '/api/tasks/' + $scope.currentTask.id)
             .success(function () {
-                navigator.notification.alert('The task has just been deleted online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
                 lists.forEach(function (list, listIndex) {
                   if (list.name == $scope.currentTask.list.name) {
@@ -157,7 +156,6 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
                 name: $scope.currentTask.name,
                 content: $scope.currentTask.content
             }).success(function (data) {
-                navigator.notification.alert('The task has just been updated online!', null, 'Done', 'Ok');
                 var lists = localStorageService.get('lists');
                 lists.forEach(function (list, listIndex) {
                   if (list.name == $scope.currentTask.list.name) {
