@@ -41,5 +41,6 @@
   "confirm": "Confirmation",
   "are_you_sure": "Êtes-vous certains ?",
   "adress_and_user_updated": "L'adresse et l'utilisateur ont été mise à jour!",
-  "multiple_lists_name_warning": "Vous ne pouvez pas avoir plusieurs listes avec le même nom."
+  "multiple_lists_name_warning": "Vous ne pouvez pas avoir plusieurs listes avec le même nom.",
+  "no_list": "Il n'y a pas de liste, s'il vous plaît créer une liste avant de créer une tâche."
 }

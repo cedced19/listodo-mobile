@@ -41,5 +41,6 @@
   "confirm": "Confirm",
   "are_you_sure": "Are you sure?",
   "adress_and_user_updated": "The adress and user has just been updated!",
-  "multiple_lists_name_warning": "You can't have multiple lists with the same name."
+  "multiple_lists_name_warning": "You can't have multiple lists with the same name.",
+  "no_list": "There is no list, please create a list before create a task."
 }
