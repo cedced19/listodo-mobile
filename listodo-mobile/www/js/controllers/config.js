@@ -16,7 +16,7 @@ app.controller('ListodoConfigCtrl', function ($scope, $rootScope, $location, loc
         $translate(['are_you_sure', 'confirm', 'reset', 'cancel']).then(function (translations) {
           navigator.notification.confirm(translations['are_you_sure'], function (buttonIndex) {
             if (buttonIndex == 1) {
-              ['tasksToPublish', 'tasksToUpdate', 'tasksToRemove', 'listsToPublish', 'list'].forEach(function (val) {
+              ['tasksToPublish', 'tasksToUpdate', 'tasksToRemove', 'listsToPublish', 'lists'].forEach(function (val) {
                 localStorageService.set(val, []);
               });
               localStorageService.set('adress', false);

@@ -28,14 +28,14 @@ app.config(function ($routeProvider, localStorageServiceProvider, $translateProv
     .otherwise({
         redirectTo: '/'
     });
-    
+
     localStorageServiceProvider
     .setPrefix('listodo')
     .setNotify(false, false);
 
     $translateProvider
     .useStaticFilesLoader({
-       prefix: '/langs/locale-',
+       prefix: 'langs/locale-',
        suffix: '.json'
     })
     .registerAvailableLanguageKeys(['en', 'fr'], {

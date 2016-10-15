@@ -1,31 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.github.cedced19.listodomobile" version="0.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="fr-FR" android-versionCode="0">
-  <name>Listodo</name>
-  <description>Listodo is an application use the API of Listodo to get your tolo list online and offline on your phone.</description>
-  <author href="http://cedced19.github.io" email="cedced19@gmail.com">Cédric</author>
-  <content src="index.html" />
-  <access origin="*" />
-  <vs:features />
-  <preference name="SplashScreen" value="screen" />
-  <preference name="StatusBarOverlaysWebView" value="true" />
-  <preference name="StatusBarBackgroundColor" value="#FB9A00" />
-  <preference name="StatusBarStyle" value="lightcontent" />
-  <platform name="android">
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-  </platform>
-  <platform name="android">
-    <icon src="res/icons/android/icon-36-ldpi.png" density="ldpi" />
-    <icon src="res/icons/android/icon-48-mdpi.png" density="mdpi" />
-    <icon src="res/icons/android/icon-72-hdpi.png" density="hdpi" />
-    <icon src="res/icons/android/icon-96-xhdpi.png" density="xhdpi" />
-    <icon src="res/icons/android/icon-144-xxhdpi.png" density="xxhdpi" />
-  </platform>
-  <plugin name="cordova-plugin-dialogs" version="1.2.0" />
-  <plugin name="cordova-plugin-network-information" version="1.2.0" />
-  <plugin name="cordova-plugin-statusbar" version="2.1.0" />
+<?xml version='1.0' encoding='utf-8'?>
+<widget android-versionCode="0" defaultlocale="fr-FR" id="io.github.cedced19.listodomobile" version="0.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps">
+    <name>Listodo</name>
+    <description>Listodo is an application use the API of Listodo to get your tolo list online and offline on your phone.</description>
+    <author email="cedced19@gmail.com" href="http://cedced19.github.io">Cédric</author>
+    <content src="index.html" />
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="StatusBarBackgroundColor" value="#FB9A00" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <platform name="android">
+        <allow-intent href="http://*/*" />
+        <allow-intent href="https://*/*" />
+        <allow-intent href="tel:*" />
+        <allow-intent href="sms:*" />
+        <allow-intent href="mailto:*" />
+        <allow-intent href="geo:*" />
+    </platform>
+    <platform name="android">
+        <icon density="ldpi" src="res/icons/android/icon-36-ldpi.png" />
+        <icon density="mdpi" src="res/icons/android/icon-48-mdpi.png" />
+        <icon density="hdpi" src="res/icons/android/icon-72-hdpi.png" />
+        <icon density="xhdpi" src="res/icons/android/icon-96-xhdpi.png" />
+        <icon density="xxhdpi" src="res/icons/android/icon-144-xxhdpi.png" />
+    </platform>
+    <plugin name="cordova-plugin-dialogs" version="1.2.0" />
+    <plugin name="cordova-plugin-network-information" version="1.2.0" />
+    <plugin name="cordova-plugin-statusbar" version="2.1.0" />
+    <plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
 </widget>

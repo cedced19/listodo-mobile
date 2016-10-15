@@ -12,7 +12,6 @@
   "no_completed_task": "As you can see, there is <b>no completed task</b>.",
   "completed_tasks_warning": "You can find here all the tasks which are completed and not yet deleted on the Listodo server.",
   "reset": "Reset",
-  "no_server": "If you have no server you can't use this application.",
   "adress": "Adress",
   "no_server": "If you have no server you can't use this application.",
   "set_adress": "Please set the internet adress of your Listodo server <i>(Ex: domain.com:7777)</i>:",
