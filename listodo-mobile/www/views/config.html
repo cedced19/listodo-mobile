@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
             <label for="password">{{ 'user_password' | translate }}:</label>
-            <input type="password" id="password" class="form-control" placeholder="{ 'password' | translate }}" ng-model="user.password" required>
+            <input type="password" id="password" class="form-control" placeholder="{{ 'password' | translate }}" ng-model="user.password" required>
         </div>
         <div class="form-group">
             <button class="btn btn-success" ng-disabled="formUpdate.$invalid" style="float:right;" ng-click="update()" translate="update_informations"></button>

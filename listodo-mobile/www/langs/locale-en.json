@@ -14,7 +14,6 @@
   "reset": "Reset",
   "adress": "Adress",
   "no_server": "If you have no server you can't use this application.",
-  "set_adress": "Please set the internet adress of your Listodo server <i>(Ex: domain.com:7777)</i>:",
   "user_email": "User email",
   "email": "Email",
   "user_password": "User password",
