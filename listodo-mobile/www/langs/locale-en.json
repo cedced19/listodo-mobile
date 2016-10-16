@@ -42,5 +42,6 @@
   "adress_and_user_updated": "The adress and user has just been updated!",
   "multiple_lists_name_warning": "You can't have multiple lists with the same name.",
   "no_list": "There is no list, please create a list before create a task.",
-  "search": "Search"
+  "search": "Search",
+  "add_to_calendar": "Add to calendar"
 }

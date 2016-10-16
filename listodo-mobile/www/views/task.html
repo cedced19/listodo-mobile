@@ -11,6 +11,7 @@
     <b>{{ 'list' | translate }}:</b> {{currentTask.list.name}}
 </p>
 <p ng-hide="editing">{{currentTask.content}}</p>
+<button ng-hide="editing" class="btn btn-info" ng-click="addToCalendar()">{{ 'add_to_calendar' | translate }} <span class="glyphicon glyphicon-calendar"></span></button>
 <form name="formUpdate" ng-show="editing">
 	<div class="form-group">
 		<label for="task-name">{{ 'task_name' | translate }}:</label>

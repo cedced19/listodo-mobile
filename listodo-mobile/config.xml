@@ -29,4 +29,5 @@
     <plugin name="cordova-plugin-network-information" version="1.2.0" />
     <plugin name="cordova-plugin-statusbar" version="2.1.0" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
+    <plugin name="cordova-plugin-calendar" spec="~4.5.4" />
 </widget>

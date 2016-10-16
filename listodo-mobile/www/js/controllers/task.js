@@ -177,4 +177,17 @@ app.controller('ListodoTasksIdCtrl', function ($scope, $rootScope, $location, lo
         updateTaskOffline();
       }
     };
+
+    $scope.addToCalendar = function () {
+      var start = new Date();
+      start.setDate(start.getDate() + 1);
+      start.setMinutes(0);
+      var end = new Date(start);
+      end.setHours(end.getHours() + 1);
+      var calOptions = window.plugins.calendar.getCalendarOptions();
+      if ($scope.currentTask.id) {
+        calOptions.url = serverService.adress() + '/#/tasks/' + $scope.currentTask.id;
+      }
+      window.plugins.calendar.createEventInteractivelyWithOptions($scope.currentTask.name,'',$scope.currentTask.content, start, end, calOptions, console.log,console.log);
+    }
 });
